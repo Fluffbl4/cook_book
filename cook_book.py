@@ -35,29 +35,22 @@ def count_lines(path):
 
 
 def rewrite_files(file_for_writing: str, base_path, location):
-    # Перебираем все файлы в подпапке и считаем количество строк в каждом
     files = [(count_lines(os.path.join(base_path, location, filename)), os.path.join(base_path, location, filename),
               filename) \
              for filename in os.listdir(os.path.join(base_path, location))]
 
-    # Сортируем файлы по количеству строк
     sorted_files = sorted(files, key=lambda x: x[0])
 
-    # Открываем итоговый файл для записи
     with open(file_for_writing, 'w', encoding='utf-8') as result_file:
         for _, path, filename in sorted_files:
-            # Записываем служебную информацию
             result_file.write(f'{filename}\n{count_lines(path)}\n')
 
-            # Читайте и записывайте содержимое файла построчно
             with open(path, 'r', encoding='utf-8') as input_file:
                 result_file.write(input_file.read())
                 result_file.write('\n')
 
-# Определяем пути
 file_for_writing = os.path.abspath('\\Users\\prajs\\Desktop\\cook_book\\1.txt')
 base_path = os.getcwd()
 location = os.path.abspath('\\Users\\prajs\\Desktop\\cook_book\\files_to_task_3')
 
-# Вызываем функцию для объединения файлов
 rewrite_files(file_for_writing, base_path, location)
